@@ -7,6 +7,8 @@ import (
 	"log"
 	"net/http"
 	"strings"
+
+	"github.com/fatih/color"
 )
 
 const cherryBlossom = `
@@ -48,20 +50,24 @@ func main() {
 	json.Unmarshal(body, &quoteResp)
 
 	imgSlice := strings.Split(cherryBlossom, "\n")
-	quotesSlice := strings.Split(quoteResp.Quote, " ")
-	quote := chunkSlice(quotesSlice, 9)
+	quoteSlice := strings.Split(quoteResp.Quote, " ")
+	quote := chunkSlice(quoteSlice, 8)
+	quote = append(quote, []string{""})
+	quote = append(quote, []string{color.HiRedString("  © ") + quoteResp.Char + " from " + quoteResp.Anime})
+
+	if !strings.HasPrefix(quote[0][0], `"`) {
+		quote[0][0] = color.HiRedString(`"`) + quote[0][0]
+		quote[len(quote)-3][len(quote[len(quote)-3])-1] = quote[len(quote)-3][len(quote[len(quote)-3])-1] + color.HiRedString(`"`)
+	}
 
 	quoteCounter := 0
 	for i, v := range imgSlice {
 		if i > 0 && i < len(imgSlice)-1 {
 			if i > 3 && quoteCounter < len(quote) {
-				fmt.Println(v + strings.Join(quote[quoteCounter], " "))
+				fmt.Println(color.HiRedString(v) + strings.Join(quote[quoteCounter], " "))
 				quoteCounter++
-				if quoteCounter == len(quote) {
-					fmt.Println(v + "  - " + quoteResp.Char + " from " + quoteResp.Anime)
-				}
 			} else {
-				fmt.Println(v)
+				fmt.Println(color.HiRedString(v))
 			}
 		}
 	}

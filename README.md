@@ -1,7 +1,7 @@
 # 🎭👄 weebsay - cowsay but it's random anime quote
 > 🌸 aesthetics inspired by [TorchedSammy](https://github.com/TorchedSammy) follow him he is a good guy
  
-<img src="_assets/preview.">
+<img src="_assets/preview.png">
 
 # Installation 🔨
 ```go get -u github.com/irevenko/weebsay``` <br>
